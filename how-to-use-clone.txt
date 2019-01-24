@@ -1,0 +1,37 @@
+1. Чтобы удалить все в папке с проектом, включая папку .git можно выполнить команду rm -rf {*,.*}
+Обычное использование rm -rf * не достигает такого эффекта, папка .git остается неудаленной.
+
+2. Если вы клонируете репозиторий через git clone то загружает все удаленные удаленные ветки, но все еще считает их "remote", 
+хотя файлы находятся в вашем новом репозитории. Там есть одно исключение, которое заключается в том, что процесс клонирования создает 
+локальную ветвь, называемую "ведущий" из удаленной ветки, называемой "master". По умолчанию git branch показывает только локальные ветки, 
+поэтому вы видите только "master". git branch -a показывает все ветки, включая удаленные ветки.
+Если вы после этого делаете push --all в другой репозиторий, то туда уедет только одна извлеченная ветка, ветка master.
+root@server:/home/user/projects/1# git clone https://github.com/rebrainme/devops-task-rebase .
+Клонирование в «.»…
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 18 (delta 6), reused 18 (delta 6), pack-reused 0
+Распаковка объектов: 100% (18/18), готово.
+Проверка соединения… готово.
+root@server:/home/user/projects/1# git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/feature
+  remotes/origin/master
+
+
+Чтобы были доступны сразу все ветки для последующего push в ваш личный отдельный репозиторий вам необходимо использовать --mirror
+root@server:/home/user/projects/1# git clone --mirror  https://github.com/rebrainme/devops-task-rebase .
+Клонирование в голый репозиторий «.»…
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 18 (delta 6), reused 18 (delta 6), pack-reused 0
+Распаковка объектов: 100% (18/18), готово.
+Проверка соединения… готово.
+root@server:/home/user/projects/1# git branch -a
+  develop
+  feature
+* master
